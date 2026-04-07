@@ -5,10 +5,10 @@
 set -e
 cd "$(dirname "$0")"
 
-export ANTHROPIC_API_KEY="sk-ant-YOUR_KEY_HERE"
-export AMAZON_ASSOCIATE_TAG="yoursite-20"
-export GITHUB_TOKEN="ghp_YOUR_TOKEN"
-export GITHUB_REPO="yourusername/yourusername.github.io"
+export ANTHROPIC_API_KEY="your_actual_key_here"
+export AMAZON_ASSOCIATE_TAG="your_tag_here"
+export GITHUB_TOKEN="our_actual_token_here"
+export GITHUB_REPO="https://github.com/nicheflowblog/nicheflow.github.io"
 
 mkdir -p logs output/posts
 

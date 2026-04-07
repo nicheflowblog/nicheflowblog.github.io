@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-GITHUB_REPO = os.environ.get('GITHUB_REPO', 'yourname/yourname.github.io')
+GITHUB_REPO = os.environ.get('GITHUB_REPO', 'alexroblesr/alexroblesr.github.io')
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
 OUTPUT_DIR = Path('output')
 

@@ -1,0 +1,220 @@
+import json
+import re
+from pathlib import Path
+from datetime import datetime
+ 
+with open('config.json') as f:
+    CONFIG = json.load(f)
+ 
+OUTPUT_DIR = Path(CONFIG['output_dir'])
+POSTS_DIR = OUTPUT_DIR / 'posts'
+INDEX_PATH = OUTPUT_DIR / 'index.html'
+ 
+site = CONFIG['site_name']
+year = datetime.now().year
+ 
+ 
+def extract_title(html_path):
+    """Pull the h1 text out of a saved article file."""
+    text = html_path.read_text(encoding='utf-8')
+    m = re.search(r'<h1[^>]*>(.*?)</h1>', text, re.DOTALL)
+    if m:
+        return re.sub(r'<[^>]+>', '', m.group(1)).strip()
+    return html_path.stem.replace('-', ' ').title()
+ 
+ 
+def build_entry(slug, title):
+    return f"""        <li class="guide-card">
+          <a href="posts/{slug}.html">
+            <div class="card-inner">
+              <span class="card-tag">Buyer's Guide</span>
+              <h3>{title}</h3>
+              <span class="card-cta">Read the guide →</span>
+            </div>
+          </a>
+        </li>\n"""
+ 
+ 
+def main():
+    if not POSTS_DIR.exists():
+        print("No posts/ directory found. Run generate.py first.")
+        return
+ 
+    posts = sorted(POSTS_DIR.glob('*.html'), key=lambda p: p.stat().st_mtime, reverse=True)
+    print(f"Found {len(posts)} articles — rebuilding index.html…")
+ 
+    entries = ""
+    for post in posts:
+        slug = post.stem
+        title = extract_title(post)
+        entries += build_entry(slug, title)
+ 
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{site} — Expert Kitchen Reviews &amp; Buying Guides</title>
+  <meta name="description" content="Independent, honest kitchen product reviews and buying guides. We test the products so you don't have to.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    :root {{
+      --green:    #1B4332;
+      --green-mid:#2D6A4F;
+      --cream:    #FDFAF5;
+      --ink:      #1C1917;
+      --muted:    #78716C;
+      --rule:     #E7E0D8;
+      --white:    #FFFFFF;
+    }}
+    body {{ font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); }}
+ 
+    header {{ background: var(--green); padding: 0 clamp(1rem,5vw,4rem); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.15); }}
+    .header-inner {{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }}
+    .site-logo {{ font-family: 'Playfair Display',serif; font-size: 1.55rem; font-weight: 900; color: white; text-decoration: none; letter-spacing: -.5px; }}
+    .site-logo span {{ color: #86EFAC; }}
+    header p {{ font-size: .82rem; color: rgba(255,255,255,.55); font-style: italic; font-family: 'Lora',serif; }}
+ 
+    .hero {{ background: var(--green); padding: clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem); text-align: center; position: relative; overflow: hidden; }}
+    .hero::before {{ content:''; position: absolute; inset:0; background: radial-gradient(ellipse at 60% 50%, rgba(45,106,79,.6) 0%, transparent 70%); pointer-events: none; }}
+    .hero-inner {{ position: relative; max-width: 680px; margin: 0 auto; }}
+    .hero-eyebrow {{ display: inline-block; background: rgba(255,255,255,.12); color: #86EFAC; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; padding: 5px 16px; border-radius: 20px; margin-bottom: 1.5rem; }}
+    .hero h1 {{ font-family: 'Playfair Display',serif; font-size: clamp(2.2rem,5vw,3.5rem); font-weight: 900; color: white; line-height: 1.15; letter-spacing: -1px; margin-bottom: 1.25rem; }}
+    .hero h1 em {{ color: #86EFAC; font-style: normal; }}
+    .hero p {{ font-family: 'Lora',serif; font-size: 1.1rem; color: rgba(255,255,255,.7); line-height: 1.7; max-width: 520px; margin: 0 auto; }}
+ 
+    .trust-bar {{ background: white; border-bottom: 1px solid var(--rule); padding: 1rem 2rem; }}
+    .trust-inner {{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }}
+    .trust-item {{ display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--muted); font-weight: 500; }}
+ 
+    .section-header {{ max-width: 1200px; margin: 0 auto; padding: clamp(2rem,4vw,3rem) clamp(1rem,3vw,2rem) 1rem; display: flex; align-items: baseline; gap: 1rem; }}
+    .section-header h2 {{ font-family: 'Playfair Display',serif; font-size: 1.6rem; font-weight: 700; color: var(--ink); }}
+    .section-header p {{ font-size: .875rem; color: var(--muted); }}
+ 
+    .guides-grid {{ max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem,3vw,2rem) clamp(2rem,5vw,4rem); }}
+    ul.guide-list {{ display: grid; grid-template-columns: repeat(auto-fill,minmax(310px,1fr)); gap: 20px; list-style: none; padding: 0; }}
+ 
+    .guide-card {{ background: white; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }}
+    .guide-card:hover {{ transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.1); }}
+    .guide-card a {{ display: block; text-decoration: none; color: inherit; height: 100%; }}
+    .card-inner {{ padding: 1.5rem 1.75rem; display: flex; flex-direction: column; gap: .75rem; height: 100%; }}
+    .card-tag {{ font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green-mid); }}
+    .guide-card h3 {{ font-family: 'Lora',serif; font-size: 1.05rem; font-weight: 600; line-height: 1.45; color: var(--ink); flex: 1; }}
+    .card-cta {{ font-size: .82rem; font-weight: 600; color: var(--green-mid); margin-top: .25rem; }}
+    .guide-card:hover .card-cta {{ color: var(--green); }}
+ 
+    footer {{ background: var(--ink); color: rgba(255,255,255,.45); text-align: center; padding: 2.5rem 2rem; font-size: .82rem; line-height: 2; }}
+    footer a {{ color: rgba(255,255,255,.65); text-decoration: none; }}
+    footer a:hover {{ color: white; }}
+ 
+    @media (max-width: 600px) {{
+      ul.guide-list {{ grid-template-columns: 1fr; }}
+      .trust-inner {{ gap: 1rem; }}
+    }}
+  </style>
+</head>
+<body>
+ 
+<header>
+  <div class="header-inner">
+    <a class="site-logo" href="/">{site}<span>.</span></a>
+    <p>Honest reviews. No fluff.</p>
+  </div>
+</header>
+ 
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Independent · Unsponsored · Honest</span>
+    <h1>Kitchen Gear Worth <em>Your</em> Money</h1>
+    <p>We research, compare, and rank the best kitchen products so you can buy with confidence — not guesswork.</p>
+  </div>
+</section>
+ 
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><span>✓</span> Independent Reviews</div>
+    <div class="trust-item"><span>✓</span> No Paid Placements</div>
+    <div class="trust-item"><span>✓</span> Real-World Testing</div>
+    <div class="trust-item"><span>✓</span> Updated Regularly</div>
+  </div>
+</div>
+ 
+<div class="section-header">
+  <h2>All Buying Guides</h2>
+  <p>Sorted by newest first</p>
+</div>
+ 
+<div class="guides-grid">
+  <ul class="guide-list">
+<!-- POSTS -->
+        <li class="guide-card">
+          <a href="posts/best-cast-iron-skillet-for-beginners.html">
+            <div class="card-inner">
+              <span class="card-tag">Buyer's Guide</span>
+              <h3>Best Cast Iron Skillet for Beginners: Our Honest 2024 Guide</h3>
+              <span class="card-cta">Read the guide →</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="posts/best-knife-set-under-100.html">
+            <div class="card-inner">
+              <span class="card-tag">Buyer's Guide</span>
+              <h3>Best Knife Set Under $100: Real-World Reviews for Home Cooks</h3>
+              <span class="card-cta">Read the guide →</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="posts/best-pour-over-coffee-maker.html">
+            <div class="card-inner">
+              <span class="card-tag">Buyer's Guide</span>
+              <h3>Best Pour Over Coffee Maker: A Home Cook's Honest Review Guide</h3>
+              <span class="card-cta">Read the guide →</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="posts/best-coffee-grinder-for-french-press.html">
+            <div class="card-inner">
+              <span class="card-tag">Buyer's Guide</span>
+              <h3>Best Coffee Grinder for French Press: Our Top Picks for 2024</h3>
+              <span class="card-cta">Read the guide →</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="posts/best-instant-pot-under-80.html">
+            <div class="card-inner">
+              <span class="card-tag">Buyer's Guide</span>
+              <h3>Best Instant Pot Under $80: Top Budget-Friendly Pressure Cookers Tested</h3>
+              <span class="card-cta">Read the guide →</span>
+            </div>
+          </a>
+        </li>
+
+{entries}  </ul>
+</div>
+ 
+<footer>
+  <p>© {year} {site} · All Rights Reserved</p>
+  <p>As an Amazon Associate we earn from qualifying purchases. <a href="#">Affiliate Disclosure</a></p>
+</footer>
+ 
+</body>
+</html>"""
+ 
+    INDEX_PATH.write_text(html, encoding='utf-8')
+    print(f"✅ index.html rebuilt with {len(posts)} articles → {INDEX_PATH}")
+    print("Now run: python3 publish.py")
+ 
+ 
+if __name__ == '__main__':
+    main()
+ 
