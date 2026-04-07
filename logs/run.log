@@ -520,3 +520,29 @@ Mon Apr  6 21:57:00 EDT 2026: Run complete
 2026-04-07 17:07:06,531 INFO Generating article for: best cast iron skillet for beginners
 2026-04-07 17:07:25,666 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 2026-04-07 17:07:25,675 INFO Article saved: output/posts/best-cast-iron-skillet-for-beginners.html
+2026-04-07 22:02:00,239 INFO === NicheFlow generation run started (Batch: 5) ===
+2026-04-07 22:02:00,239 INFO Keyword selected: best blender for smoothies under 50
+2026-04-07 22:02:00,240 INFO Generating article for: best blender for smoothies under 50
+2026-04-07 22:02:00,271 INFO Retrying request to /v1/messages in 0.424054 seconds
+2026-04-07 22:02:00,718 INFO Retrying request to /v1/messages in 0.848354 seconds
+2026-04-07 22:02:01,590 ERROR Generation failed for 'best blender for smoothies under 50': Connection error.
+2026-04-07 22:02:01,590 INFO Keyword selected: vitamix vs ninja blender
+2026-04-07 22:02:01,590 INFO Generating article for: vitamix vs ninja blender
+2026-04-07 22:02:01,616 INFO Retrying request to /v1/messages in 0.464931 seconds
+2026-04-07 22:02:02,105 INFO Retrying request to /v1/messages in 0.892242 seconds
+2026-04-07 22:02:03,023 ERROR Generation failed for 'vitamix vs ninja blender': Connection error.
+2026-04-07 22:02:03,023 INFO Keyword selected: best food processor for small kitchen
+2026-04-07 22:02:03,023 INFO Generating article for: best food processor for small kitchen
+2026-04-07 22:02:03,045 INFO Retrying request to /v1/messages in 0.428834 seconds
+2026-04-07 22:02:03,506 INFO Retrying request to /v1/messages in 0.852142 seconds
+2026-04-07 22:02:04,388 ERROR Generation failed for 'best food processor for small kitchen': Connection error.
+2026-04-07 22:02:04,389 INFO Keyword selected: best kitchen scale for baking
+2026-04-07 22:02:04,389 INFO Generating article for: best kitchen scale for baking
+2026-04-07 22:02:04,418 INFO Retrying request to /v1/messages in 0.464629 seconds
+2026-04-07 22:02:04,906 INFO Retrying request to /v1/messages in 0.854611 seconds
+2026-04-07 22:02:05,796 ERROR Generation failed for 'best kitchen scale for baking': Connection error.
+2026-04-07 22:02:05,796 INFO Keyword selected: best silicone baking mats
+2026-04-07 22:02:05,796 INFO Generating article for: best silicone baking mats
+2026-04-07 22:02:05,822 INFO Retrying request to /v1/messages in 0.400317 seconds
+2026-04-07 22:02:06,245 INFO Retrying request to /v1/messages in 0.836892 seconds
+2026-04-07 22:02:07,107 ERROR Generation failed for 'best silicone baking mats': Connection error.
