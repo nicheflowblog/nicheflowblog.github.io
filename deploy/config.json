@@ -1,0 +1,13 @@
+{
+  "niche": "kitchen gadgets",
+  "site_name": "KitchenPickr",
+  "site_url": "https://yourusername.github.io",
+  "output_dir": "output",
+  "posts_per_day": 1,
+  "affiliate": {
+    "amazon_tag": "yoursite-20",
+    "impact_default": ""
+  },
+  "claude_model": "claude-haiku-4-5-20251001",
+  "max_tokens": 4000
+}
