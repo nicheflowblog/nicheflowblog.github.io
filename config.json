@@ -1,8 +1,8 @@
 {
   "niche": "kitchen gadgets",
   "site_name": "KitchenPickr",
-  "site_url": "https://github.com/Alexroblesr/alexroblesr.github.io",
-  "output_dir": "output",
+  "site_url": "https://nicheflowblog.github.io",
+  "output_dir": ".",
   "posts_per_day": 1,
   "affiliate": {
     "amazon_tag": "102827-20",
