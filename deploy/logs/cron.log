@@ -21,3 +21,57 @@ zsh: command not found: 0
 /Users/alexrobles/nicheflow/run_all.sh: line 17: python: command not found
 /Users/alexrobles/nicheflow/run_all.sh: line 17: python: command not found
 /Users/alexrobles/nicheflow/run_all.sh: line 17: python: command not found
+[2026-04-08 13:53:30] ==========================================
+[2026-04-08 13:53:30] NicheFlow daily run started
+[2026-04-08 13:53:30] ==========================================
+[2026-04-08 13:53:30] Step 1: Running generate.py ...
+[1/5] Generating: best blender for smoothies under 50...
+✅ Success: deploy/posts/best-blender-for-smoothies-under-50.html
+[2/5] Generating: vitamix vs ninja blender...
+✅ Success: deploy/posts/vitamix-vs-ninja-blender.html
+[3/5] Generating: best food processor for small kitchen...
+✅ Success: deploy/posts/best-food-processor-for-small-kitchen.html
+[4/5] Generating: best kitchen scale for baking...
+✅ Success: deploy/posts/best-kitchen-scale-for-baking.html
+[5/5] Generating: best silicone baking mats...
+✅ Success: deploy/posts/best-silicone-baking-mats.html
+
+Batch complete! Run 'python3 publish.py' to push changes to GitHub.
+[2026-04-08 13:55:09] Step 1 ✓ generate.py complete
+[2026-04-08 13:55:09] Step 2: Running index.py ...
+Generated deploy/index.html with 27 posts.
+[2026-04-08 13:55:09] Step 2 ✓ index.py complete
+[2026-04-08 13:55:09] Step 3: Syncing index.html to repo root ...
+[2026-04-08 13:55:09] Step 3 ✓ index.html copied
+[2026-04-08 13:55:09] Step 4: Syncing new posts to ./posts/ ...
+[2026-04-08 13:55:09]   Copied: best-air-fryer-for-family-of-4.html
+[2026-04-08 13:55:09]   Copied: best-air-fryer-under-100.html
+[2026-04-08 13:55:09]   Copied: best-blender-for-smoothies-under-50.html
+[2026-04-08 13:55:09]   Copied: best-cast-iron-skillet-for-beginners.html
+[2026-04-08 13:55:09]   Copied: best-coffee-grinder-for-french-press.html
+[2026-04-08 13:55:09]   Copied: best-compact-juicer-for-small-apartments.html
+[2026-04-08 13:55:09]   Copied: best-convection-toaster-oven-under-150.html
+[2026-04-08 13:55:09]   Copied: best-dutch-oven-under-100.html
+[2026-04-08 13:55:09]   Copied: best-electric-indoor-grill-for-steak.html
+[2026-04-08 13:55:09]   Copied: best-food-processor-for-small-kitchen.html
+[2026-04-08 13:55:10]   Copied: best-gooseneck-kettle-for-pour-over.html
+[2026-04-08 13:55:10]   Copied: best-instant-pot-under-80.html
+[2026-04-08 13:55:10]   Copied: best-kitchen-scale-for-baking.html
+[2026-04-08 13:55:10]   Copied: best-knife-set-under-100.html
+[2026-04-08 13:55:10]   Copied: best-masticating-juicer-for-celery.html
+[2026-04-08 13:55:10]   Copied: best-milk-frother-for-latte-art.html
+[2026-04-08 13:55:10]   Copied: best-portable-charcoal-grill-for-camping.html
+[2026-04-08 13:55:10]   Copied: best-pour-over-coffee-maker.html
+[2026-04-08 13:55:10]   Copied: best-silicone-baking-mats.html
+[2026-04-08 13:55:10]   Copied: best-stand-mixer-for-home-baking.html
+[2026-04-08 13:55:10]   Copied: best-toaster-oven-for-toast-and-pizza.html
+[2026-04-08 13:55:10]   Copied: centrifugal-vs-masticating-juicer.html
+[2026-04-08 13:55:10]   Copied: electric-vs-stovetop-gooseneck-kettle.html
+[2026-04-08 13:55:10]   Copied: george-foreman-vs-ninja-foodi-grill.html
+[2026-04-08 13:55:10]   Copied: ninja-air-fryer-vs-cosori.html
+[2026-04-08 13:55:10]   Copied: ninja-foodi-vs-breville-smart-oven.html
+[2026-04-08 13:55:10]   Copied: vitamix-vs-ninja-blender.html
+[2026-04-08 13:55:10] Step 4 ✓ 27 file(s) synced to ./posts/
+[2026-04-08 13:55:10] Step 5: Syncing sitemap.xml ...
+[2026-04-08 13:55:10] Step 5 ✓ sitemap.xml copied
+[2026-04-08 13:55:10] Step 6: Committing and pushing ...

@@ -10,107 +10,81 @@
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://github.com/Alexroblesr/alexroblesr.github.io/posts/george-foreman-vs-ninja-foodi-grill.html">
 <style>
-:root {
-    --primary: #2d5a27; /* Sage Green */
-    --accent: #ff9900;  /* Amazon Orange */
-    --text: #333;
-    --light-bg: #fdfdfd;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    color: var(--text);
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+  line-height: 1.75;
+  color: #1a1a1a;
+  background: #ffffff;
+  font-size: 16px;
 }
 
-/* Header & Nav */
 nav {
-    background: var(--primary);
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: #1B4332;
+  padding: 14px 20px;
+  margin: 0 -16px 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.5px;
-}
+nav a { color: #ffffff; text-decoration: none; font-weight: 700; font-size: 1.05rem; }
+nav a:hover { text-decoration: underline; }
 
-/* Main Container */
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    padding: 40px;
-}
+h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.5em; color: #1a1a1a; font-weight: 800; }
+h2 { font-size: 1.25rem; margin: 2.25em 0 0.75em; padding-bottom: 0.4em; border-bottom: 2px solid #e8e8e8; color: #1B4332; font-weight: 700; }
+h3 { font-size: 1.05rem; margin: 1.5em 0 0.4em; color: #1a1a1a; font-weight: 700; }
+p  { margin-bottom: 1.1em; }
 
-/* Homepage List as Cards */
-ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 0;
-    list-style: none;
+p.intro {
+  background: #f0f7f4;
+  border-left: 4px solid #1B4332;
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  font-size: 1.05rem;
+  color: #1a1a1a;
+  font-style: italic;
+  line-height: 1.8;
+  margin-bottom: 2em;
 }
-
-li {
-    background: white;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-}
-
-li a {
-    display: block;
-    padding: 20px;
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-/* Article Styling */
-h1 { font-size: 2.5rem; color: #1a1a1a; margin-top: 0; }
-h2 { font-size: 1.8rem; margin-top: 2rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
 
 .product-rec {
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-top: 4px solid var(--primary);
-    padding: 25px;
-    margin: 30px 0;
-    border-radius: 4px;
+  background: #f8f8f8;
+  border: 1px solid #e4e4e4;
+  border-left: 4px solid #1B4332;
+  padding: 20px 24px;
+  margin: 24px 0;
+  border-radius: 0 8px 8px 0;
 }
+.product-rec h3 { color: #1B4332; margin-top: 0; }
 
 .affiliate-btn {
-    display: inline-block;
-    background: var(--accent);
-    color: #111;
-    padding: 12px 24px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    transition: background 0.2s;
+  display: inline-block;
+  background: #ff9900;
+  color: #111;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 10px;
 }
-
 .affiliate-btn:hover { background: #e68a00; }
 
-@media (max-width: 600px) {
-    .container { margin: 10px auto; padding: 20px; }
-    h1 { font-size: 1.8rem; }
+.disclaimer {
+  font-size: 0.8rem;
+  color: #555;
+  background: #f5f5f5;
+  border: 1px solid #e4e4e4;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-top: 2.5em;
 }
+
+.date { color: #555; font-size: 0.875rem; margin-bottom: 1.5em; }
 </style>
 </head>
 <body>

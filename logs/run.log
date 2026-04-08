@@ -676,29 +676,24 @@ Mon Apr  6 21:57:00 EDT 2026: Run complete
 2026-04-08 17:37:57,582 INFO Retrying request to /v1/messages in 0.421493 seconds
 2026-04-08 17:37:58,022 INFO Retrying request to /v1/messages in 0.814411 seconds
 2026-04-08 17:37:58,847 ERROR Generation failed for 'best silicone baking mats': Connection error.
-2026-04-08 17:50:26,164 INFO === NicheFlow generation run started (Batch: 5) ===
-2026-04-08 17:50:26,165 INFO Keyword selected: best blender for smoothies under 50
-2026-04-08 17:50:26,165 INFO Generating article for: best blender for smoothies under 50
-2026-04-08 17:50:26,187 INFO Retrying request to /v1/messages in 0.381990 seconds
-2026-04-08 17:50:26,578 INFO Retrying request to /v1/messages in 0.833650 seconds
-2026-04-08 17:50:27,421 ERROR Generation failed for 'best blender for smoothies under 50': Connection error.
-2026-04-08 17:50:27,421 INFO Keyword selected: vitamix vs ninja blender
-2026-04-08 17:50:27,421 INFO Generating article for: vitamix vs ninja blender
-2026-04-08 17:50:27,431 INFO Retrying request to /v1/messages in 0.430037 seconds
-2026-04-08 17:50:27,875 INFO Retrying request to /v1/messages in 0.757484 seconds
-2026-04-08 17:50:28,644 ERROR Generation failed for 'vitamix vs ninja blender': Connection error.
-2026-04-08 17:50:28,644 INFO Keyword selected: best food processor for small kitchen
-2026-04-08 17:50:28,644 INFO Generating article for: best food processor for small kitchen
-2026-04-08 17:50:28,654 INFO Retrying request to /v1/messages in 0.462513 seconds
-2026-04-08 17:50:29,127 INFO Retrying request to /v1/messages in 0.773202 seconds
-2026-04-08 17:50:29,911 ERROR Generation failed for 'best food processor for small kitchen': Connection error.
-2026-04-08 17:50:29,911 INFO Keyword selected: best kitchen scale for baking
-2026-04-08 17:50:29,911 INFO Generating article for: best kitchen scale for baking
-2026-04-08 17:50:29,920 INFO Retrying request to /v1/messages in 0.406430 seconds
-2026-04-08 17:50:30,338 INFO Retrying request to /v1/messages in 0.819520 seconds
-2026-04-08 17:50:31,168 ERROR Generation failed for 'best kitchen scale for baking': Connection error.
-2026-04-08 17:50:31,168 INFO Keyword selected: best silicone baking mats
-2026-04-08 17:50:31,168 INFO Generating article for: best silicone baking mats
-2026-04-08 17:50:31,182 INFO Retrying request to /v1/messages in 0.425516 seconds
-2026-04-08 17:50:31,620 INFO Retrying request to /v1/messages in 0.953409 seconds
-2026-04-08 17:50:32,585 ERROR Generation failed for 'best silicone baking mats': Connection error.
+2026-04-08 13:53:32,249 INFO === NicheFlow generation run started (Batch: 5) ===
+2026-04-08 13:53:32,250 INFO Keyword selected: best blender for smoothies under 50
+2026-04-08 13:53:32,250 INFO Generating article for: best blender for smoothies under 50
+2026-04-08 13:53:51,677 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-04-08 13:53:51,716 INFO Article saved: deploy/posts/best-blender-for-smoothies-under-50.html
+2026-04-08 13:53:51,716 INFO Keyword selected: vitamix vs ninja blender
+2026-04-08 13:53:51,716 INFO Generating article for: vitamix vs ninja blender
+2026-04-08 13:54:11,334 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-04-08 13:54:11,344 INFO Article saved: deploy/posts/vitamix-vs-ninja-blender.html
+2026-04-08 13:54:11,345 INFO Keyword selected: best food processor for small kitchen
+2026-04-08 13:54:11,345 INFO Generating article for: best food processor for small kitchen
+2026-04-08 13:54:32,991 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-04-08 13:54:32,996 INFO Article saved: deploy/posts/best-food-processor-for-small-kitchen.html
+2026-04-08 13:54:32,996 INFO Keyword selected: best kitchen scale for baking
+2026-04-08 13:54:32,996 INFO Generating article for: best kitchen scale for baking
+2026-04-08 13:54:50,500 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-04-08 13:54:50,505 INFO Article saved: deploy/posts/best-kitchen-scale-for-baking.html
+2026-04-08 13:54:50,505 INFO Keyword selected: best silicone baking mats
+2026-04-08 13:54:50,505 INFO Generating article for: best silicone baking mats
+2026-04-08 13:55:09,471 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-04-08 13:55:09,476 INFO Article saved: deploy/posts/best-silicone-baking-mats.html
