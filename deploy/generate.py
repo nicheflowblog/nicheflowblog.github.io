@@ -137,7 +137,7 @@ def inject_affiliate_links(html_content):
     return re.sub(pattern, replace_slot, html_content)
 
 
-def wrap_in_template(article_html, keyword, slug):
+def wrap_in_template(article_html, keyword, slug, date_display=None, date_iso=None):
     title_match = re.search(r'<h1[^>]*>(.*?)</h1>', article_html)
     title = title_match.group(1) if title_match else keyword.title()
 
@@ -147,7 +147,13 @@ def wrap_in_template(article_html, keyword, slug):
 
     site = CONFIG['site_name']
     site_url = CONFIG['site_url']
-    date = datetime.now().strftime('%Y-%m-%d')
+    if date_display is None:
+        date_display = datetime.now().strftime('%B %d, %Y')
+    if date_iso is None:
+        date_iso = datetime.now().strftime('%Y-%m-%d')
+
+    # Strip h1 from article body — rendered separately above content
+    article_body = re.sub(r'<h1[^>]*>.*?</h1>', '', article_html, count=1, flags=re.DOTALL).strip()
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -161,24 +167,187 @@ def wrap_in_template(article_html, keyword, slug):
 <meta property="og:type" content="article">
 <link rel="canonical" href="{site_url}/posts/{slug}.html">
 <style>
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:760px;margin:0 auto;padding:20px 16px;line-height:1.7;color:#1a1a1a}}
-h1{{font-size:1.8em;line-height:1.3;margin-bottom:.5em}}
-h2{{font-size:1.3em;margin-top:2em;padding-bottom:.3em;border-bottom:1px solid #eee}}
-h3{{font-size:1.1em;margin-top:1.5em}}
-.product-rec{{background:#f8f9fa;border-left:3px solid #0066cc;padding:16px;margin:20px 0;border-radius:0 8px 8px 0}}
-.affiliate-btn{{display:inline-block;background:#ff9900;color:#111;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:600;font-size:.9em;margin-top:8px}}
-.affiliate-btn:hover{{background:#e88800}}
-.disclaimer{{font-size:.8em;color:#666;border-top:1px solid #eee;padding-top:1em;margin-top:2em}}
-nav{{background:#0066cc;padding:12px 16px;margin:-20px -16px 30px;color:white}}
-nav a{{color:white;text-decoration:none;font-weight:600}}
-.date{{color:#666;font-size:.85em;margin-bottom:1em}}
+*, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+body {{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #ffffff;
+  color: #2d2d2d;
+  line-height: 1.75;
+  font-size: 1rem;
+}}
+
+/* ── HEADER ── */
+header {{
+  background: #1B4332;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}}
+.header-inner {{
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}}
+.site-logo {{
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}}
+.site-logo span {{ color: #86EFAC; }}
+header nav a {{
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}}
+header nav a:hover {{ color: #ffffff; text-decoration: underline; }}
+
+/* ── CONTENT AREA ── */
+.content {{
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}}
+
+/* ── META + TITLE ── */
+.post-date {{
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.6rem;
+}}
+
+h1 {{
+  font-family: Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}}
+
+h2 {{
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1B4332;
+  margin: 2.25rem 0 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid #e8e8e8;
+}}
+
+h3 {{
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 1.25rem 0 0.4rem;
+}}
+
+p {{ margin-bottom: 1.1em; }}
+
+/* ── INTRO BLOCK ── */
+p.intro {{
+  background: #f0f7f4;
+  border-left: 4px solid #2D6A4F;
+  color: #1a1a1a;
+  font-style: italic;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}}
+
+/* ── PRODUCT CARDS ── */
+.product-rec {{
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.75rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}}
+.product-rec h3 {{
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+}}
+.product-rec strong {{ color: #1B4332; }}
+
+.affiliate-btn {{
+  display: inline-block;
+  background: #E8A020;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}}
+.affiliate-btn:hover {{ background: #c98a18; }}
+
+/* ── DISCLAIMER ── */
+p.disclaimer {{
+  font-size: 0.78rem;
+  color: #888;
+  background: #f8f8f8;
+  border: 1px solid #e4e4e4;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-top: 2.5rem;
+}}
+
+/* ── FOOTER ── */
+footer {{
+  background: #1a1a1a;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.82rem;
+  margin-top: 3rem;
+}}
+footer a {{ color: rgba(255,255,255,0.7); text-decoration: none; }}
+footer a:hover {{ color: #ffffff; }}
+
+@media (max-width: 600px) {{
+  h1 {{ font-size: 1.7rem; }}
+  .content {{ padding: 1.5rem 1rem 3rem; }}
+  .product-rec {{ padding: 1.1rem; }}
+}}
 </style>
 </head>
 <body>
-<nav><a href="/">{site}</a> — Smart buying guides</nav>
-<p class="date">Published {date}</p>
-{article_html}
-<p style="margin-top:2em"><a href="/">← Back to all guides</a></p>
+
+<header>
+  <div class="header-inner">
+    <a class="site-logo" href="/">{site}<span>.</span></a>
+    <nav><a href="/">All Guides</a></nav>
+  </div>
+</header>
+
+<div class="content">
+  <time class="post-date" datetime="{date_iso}">Published {date_display}</time>
+  <h1>{title}</h1>
+  {article_body}
+  <p style="margin-top:2.5rem"><a href="/" style="color:#2D6A4F;font-size:0.9rem;font-weight:600;text-decoration:none;">← Back to All Guides</a></p>
+</div>
+
+<footer>
+  <p>© {datetime.now().year} {site} · Independent reviews, honest opinions · <a href="/">Home</a></p>
+  <p style="margin-top:6px">As an Amazon Associate we earn from qualifying purchases.</p>
+</footer>
+
 </body>
 </html>"""
 

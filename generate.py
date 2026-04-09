@@ -140,19 +140,24 @@ def inject_affiliate_links(html_content):
 # ─────────────────────────────────────────────
 #  ARTICLE PAGE TEMPLATE  (wrap_in_template)
 # ─────────────────────────────────────────────
-def wrap_in_template(article_html, keyword, slug):
+def wrap_in_template(article_html, keyword, slug, date_display=None, date_iso=None):
     title_match = re.search(r'<h1[^>]*>(.*?)</h1>', article_html)
     title = title_match.group(1) if title_match else keyword.title()
- 
+
     desc_match = re.search(r'<p class="intro">(.*?)</p>', article_html, re.DOTALL)
     desc = desc_match.group(1)[:155] if desc_match else f"Best {keyword} reviewed and ranked."
     desc = re.sub(r'<[^>]+>', '', desc).strip()
- 
+
     site = CONFIG['site_name']
     site_url = CONFIG['site_url']
-    date_display = datetime.now().strftime('%B %d, %Y')
-    date_iso = datetime.now().strftime('%Y-%m-%d')
- 
+    if date_display is None:
+        date_display = datetime.now().strftime('%B %d, %Y')
+    if date_iso is None:
+        date_iso = datetime.now().strftime('%Y-%m-%d')
+
+    # Strip h1 from article body — rendered separately above content
+    article_body = re.sub(r'<h1[^>]*>.*?</h1>', '', article_html, count=1, flags=re.DOTALL).strip()
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,279 +169,188 @@ def wrap_in_template(article_html, keyword, slug):
 <meta property="og:description" content="{desc}">
 <meta property="og:type" content="article">
 <link rel="canonical" href="{site_url}/posts/{slug}.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
- 
-:root {{
-    --green:    #1B4332;
-    --green-mid:#2D6A4F;
-    --amber:    #B45309;
-    --amber-lt: #FEF3C7;
-    --cream:    #FDFAF5;
-    --ink:      #1C1917;
-    --muted:    #78716C;
-    --rule:     #E7E0D8;
-    --white:    #FFFFFF;
-    --radius:   6px;
-    --shadow:   0 4px 24px rgba(0,0,0,0.08);
-}}
- 
+
 body {{
-    font-family: 'Lora', Georgia, serif;
-    background: var(--cream);
-    color: var(--ink);
-    line-height: 1.75;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #ffffff;
+  color: #2d2d2d;
+  line-height: 1.75;
+  font-size: 1rem;
 }}
- 
+
 /* ── HEADER ── */
 header {{
-    background: var(--green);
-    padding: 0 clamp(1rem, 5vw, 4rem);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  background: #1B4332;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }}
 .header-inner {{
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
 }}
 .site-logo {{
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--white);
-    text-decoration: none;
-    letter-spacing: -0.5px;
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
 }}
 .site-logo span {{ color: #86EFAC; }}
 header nav a {{
-    color: rgba(255,255,255,0.75);
-    text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-left: 1.5rem;
-    transition: color 0.2s;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
 }}
-header nav a:hover {{ color: #fff; }}
- 
-/* ── ARTICLE HERO ── */
-.article-hero {{
-    background: var(--green);
-    color: white;
-    padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem) 0;
+header nav a:hover {{ color: #ffffff; text-decoration: underline; }}
+
+/* ── CONTENT AREA ── */
+.content {{
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
 }}
-.article-hero-inner {{
-    max-width: 800px;
-    margin: 0 auto;
-    padding-bottom: 3rem;
+
+/* ── META + TITLE ── */
+.post-date {{
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.6rem;
 }}
-.article-tag {{
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    color: #86EFAC;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 1.25rem;
+
+h1 {{
+  font-family: Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.25;
+  margin-bottom: 1rem;
 }}
-.article-hero h1 {{
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 900;
-    line-height: 1.2;
-    color: white;
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.5px;
+
+h2 {{
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1B4332;
+  margin: 2.25rem 0 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid #e8e8e8;
 }}
-.article-meta {{
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.6);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+
+h3 {{
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 1.25rem 0 0.4rem;
 }}
-.article-meta .sep {{ opacity: 0.4; }}
- 
-/* ── ARTICLE BODY ── */
-.article-wrap {{
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 clamp(1rem, 5vw, 2rem);
-}}
- 
-.article-body {{
-    background: var(--white);
-    border-radius: 0 0 var(--radius) var(--radius);
-    padding: clamp(1.5rem, 4vw, 3rem);
-    box-shadow: var(--shadow);
-}}
- 
+
+p {{ margin-bottom: 1.1em; }}
+
+/* ── INTRO BLOCK ── */
 p.intro {{
-    font-size: 1.15rem;
-    color: #44403C;
-    line-height: 1.8;
-    border-left: 3px solid var(--green-mid);
-    padding-left: 1.25rem;
-    margin-bottom: 2rem;
-    font-style: italic;
+  background: #f0f7f4;
+  border-left: 4px solid #2D6A4F;
+  color: #1a1a1a;
+  font-style: italic;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 2rem;
+  line-height: 1.8;
 }}
- 
-.article-body h2 {{
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 2.5rem 0 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--rule);
-}}
- 
-.article-body h3 {{
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-}}
- 
-.article-body p {{ margin-bottom: 1.25rem; }}
- 
+
 /* ── PRODUCT CARDS ── */
 .product-rec {{
-    background: var(--cream);
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--green-mid);
-    border-radius: var(--radius);
-    padding: 1.5rem 1.75rem;
-    margin: 1.75rem 0;
-    position: relative;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.75rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }}
- 
 .product-rec h3 {{
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--green);
-    margin-bottom: 0.75rem;
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 0.6rem;
 }}
- 
-.product-rec strong {{ color: var(--ink); }}
- 
+.product-rec strong {{ color: #1B4332; }}
+
 .affiliate-btn {{
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #FF9900;
-    color: #111;
-    padding: 10px 20px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-top: 0.75rem;
-    transition: background 0.2s, transform 0.15s;
-    box-shadow: 0 2px 6px rgba(255,153,0,0.3);
+  display: inline-block;
+  background: #E8A020;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
 }}
-.affiliate-btn:hover {{ background: #e68a00; transform: translateY(-1px); }}
- 
+.affiliate-btn:hover {{ background: #c98a18; }}
+
 /* ── DISCLAIMER ── */
 p.disclaimer {{
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--muted);
-    background: #F5F5F4;
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    padding: 0.75rem 1rem;
-    margin-top: 2.5rem;
+  font-size: 0.78rem;
+  color: #888;
+  background: #f8f8f8;
+  border: 1px solid #e4e4e4;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-top: 2.5rem;
 }}
- 
-/* ── BACK LINK ── */
-.back-link {{
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--green-mid);
-    text-decoration: none;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    padding: 8px 0;
-}}
-.back-link:hover {{ color: var(--green); }}
- 
+
 /* ── FOOTER ── */
 footer {{
-    background: var(--ink);
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    padding: 2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    margin-top: 4rem;
+  background: #1a1a1a;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.82rem;
+  margin-top: 3rem;
 }}
 footer a {{ color: rgba(255,255,255,0.7); text-decoration: none; }}
- 
-@media (max-width: 640px) {{
-    .article-body {{ padding: 1.25rem; }}
-    .product-rec {{ padding: 1.1rem; }}
+footer a:hover {{ color: #ffffff; }}
+
+@media (max-width: 600px) {{
+  h1 {{ font-size: 1.7rem; }}
+  .content {{ padding: 1.5rem 1rem 3rem; }}
+  .product-rec {{ padding: 1.1rem; }}
 }}
 </style>
 </head>
 <body>
- 
+
 <header>
   <div class="header-inner">
     <a class="site-logo" href="/">{site}<span>.</span></a>
-    <nav>
-      <a href="/">All Guides</a>
-    </nav>
+    <nav><a href="/">All Guides</a></nav>
   </div>
 </header>
- 
-<div class="article-hero">
-  <div class="article-hero-inner">
-    <span class="article-tag">Buyer's Guide</span>
-    {article_html.replace('<h1', '<h1 style="display:none"', 1)}
-    <div style="display:block">
-      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.2;color:white;margin-bottom:1.25rem;letter-spacing:-0.5px;">{title}</h1>
-    </div>
-    <div class="article-meta">
-      <span>By {site} Editors</span>
-      <span class="sep">·</span>
-      <time datetime="{date_iso}">{date_display}</time>
-    </div>
-  </div>
+
+<div class="content">
+  <time class="post-date" datetime="{date_iso}">Published {date_display}</time>
+  <h1>{title}</h1>
+  {article_body}
+  <p style="margin-top:2.5rem"><a href="/" style="color:#2D6A4F;font-size:0.9rem;font-weight:600;text-decoration:none;">← Back to All Guides</a></p>
 </div>
- 
-<div class="article-wrap">
-  <div class="article-body">
-    {re.sub(r'<h1[^>]*>.*?</h1>', '', article_html, count=1, flags=re.DOTALL)}
-    <a class="back-link" href="/">← Back to All Guides</a>
-  </div>
-</div>
- 
+
 <footer>
   <p>© {datetime.now().year} {site} · Independent reviews, honest opinions · <a href="/">Home</a></p>
   <p style="margin-top:6px">As an Amazon Associate we earn from qualifying purchases.</p>
 </footer>
- 
+
 </body>
 </html>"""
  
