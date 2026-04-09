@@ -10,7 +10,7 @@ set -euo pipefail
 # ── Paths ────────────────────────────────────────────────────
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG="$REPO/deploy/logs/cron.log"
-PYTHON=/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
+PYTHON="${PYTHON:-$(command -v python3 2>/dev/null || echo /Library/Frameworks/Python.framework/Versions/3.13/bin/python3)}"
 DATE_STAMP=$(date '+%Y-%m-%d')
 
 # Ensure cron has a sane PATH
