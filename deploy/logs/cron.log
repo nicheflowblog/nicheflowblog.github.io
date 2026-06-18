@@ -2420,3 +2420,9 @@ Generated deploy/index.html with 27 posts.
 [2026-06-18 12:22:07] Step 5: Syncing sitemap.xml ...
 [2026-06-18 12:22:07] Step 5 ✓ sitemap.xml copied
 [2026-06-18 12:22:07] Step 6: Committing and pushing ...
+To https://github.com/nicheflowblog/nicheflowblog.github.io
+   29b2bfe..23c2d80  main -> main
+[2026-06-18 12:22:08] Step 6 ✓ Pushed to origin main
+[2026-06-18 12:22:08] ==========================================
+[2026-06-18 12:22:08] Run complete
+[2026-06-18 12:22:08] ==========================================
