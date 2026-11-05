@@ -6256,3 +6256,29 @@ Mon Apr  6 21:57:00 EDT 2026: Run complete
 2026-11-04 16:49:17,352 INFO Retrying request to /v1/messages in 0.377778 seconds
 2026-11-04 16:49:17,746 INFO Retrying request to /v1/messages in 0.844259 seconds
 2026-11-04 16:49:18,606 ERROR Generation failed for 'george foreman vs ninja foodi grill': Connection error.
+2026-11-05 17:03:42,099 INFO === NicheFlow generation run started (Batch: 5) ===
+2026-11-05 17:03:42,100 INFO Keyword selected: best masticating juicer for celery
+2026-11-05 17:03:42,100 INFO Generating article for: best masticating juicer for celery
+2026-11-05 17:03:42,135 INFO Retrying request to /v1/messages in 0.472652 seconds
+2026-11-05 17:03:42,635 INFO Retrying request to /v1/messages in 0.834714 seconds
+2026-11-05 17:03:43,492 ERROR Generation failed for 'best masticating juicer for celery': Connection error.
+2026-11-05 17:03:43,492 INFO Keyword selected: centrifugal vs masticating juicer
+2026-11-05 17:03:43,492 INFO Generating article for: centrifugal vs masticating juicer
+2026-11-05 17:03:43,521 INFO Retrying request to /v1/messages in 0.478587 seconds
+2026-11-05 17:03:44,023 INFO Retrying request to /v1/messages in 0.805623 seconds
+2026-11-05 17:03:44,851 ERROR Generation failed for 'centrifugal vs masticating juicer': Connection error.
+2026-11-05 17:03:44,851 INFO Keyword selected: best compact juicer for small apartments
+2026-11-05 17:03:44,851 INFO Generating article for: best compact juicer for small apartments
+2026-11-05 17:03:44,873 INFO Retrying request to /v1/messages in 0.420683 seconds
+2026-11-05 17:03:45,317 INFO Retrying request to /v1/messages in 0.982856 seconds
+2026-11-05 17:03:46,322 ERROR Generation failed for 'best compact juicer for small apartments': Connection error.
+2026-11-05 17:03:46,322 INFO Keyword selected: best electric indoor grill for steak
+2026-11-05 17:03:46,322 INFO Generating article for: best electric indoor grill for steak
+2026-11-05 17:03:46,343 INFO Retrying request to /v1/messages in 0.476595 seconds
+2026-11-05 17:03:46,841 INFO Retrying request to /v1/messages in 0.896291 seconds
+2026-11-05 17:03:47,760 ERROR Generation failed for 'best electric indoor grill for steak': Connection error.
+2026-11-05 17:03:47,760 INFO Keyword selected: george foreman vs ninja foodi grill
+2026-11-05 17:03:47,760 INFO Generating article for: george foreman vs ninja foodi grill
+2026-11-05 17:03:47,784 INFO Retrying request to /v1/messages in 0.474708 seconds
+2026-11-05 17:03:48,282 INFO Retrying request to /v1/messages in 0.967556 seconds
+2026-11-05 17:03:49,274 ERROR Generation failed for 'george foreman vs ninja foodi grill': Connection error.
